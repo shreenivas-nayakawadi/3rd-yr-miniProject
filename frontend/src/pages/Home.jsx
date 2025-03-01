@@ -1,30 +1,31 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
       const [isMenuOpen, setIsMenuOpen] = useState(false);
       const teamMembers = [
             {
-                  name: "Shreenivas",
-                  roll: "XXXXXXX",
+                  name: "Shreenivas Nayakawadi",
+                  roll: "1DS22IS143",
                   college: "Dayananda Sagar College of Engineering",
                   department: "Information Science and Engineering",
             },
             {
-                  name: "Person 2",
-                  roll: "XXXXXXX",
+                  name: "Shreesha A",
+                  roll: "1DS22IS144",
                   college: "Dayananda Sagar College of Engineering",
                   department: "Information Science and Engineering",
             },
             {
-                  name: "Person 3",
-                  roll: "XXXXXXX",
+                  name: "Siddeshwar M",
+                  roll: "1DS22IS155",
                   college: "Dayananda Sagar College of Engineering",
                   department: "Information Science and Engineering",
             },
             {
-                  name: "Person 4",
-                  roll: "XXXXXXX",
+                  name: "Prashant S N",
+                  roll: "1DS23IS415",
                   college: "Dayananda Sagar College of Engineering",
                   department: "Information Science and Engineering",
             },
@@ -47,18 +48,18 @@ const Home = () => {
                               >
                                     Contact
                               </a>
-                              <a
-                                    href="#login"
-                                    className="text-lg hover:text-blue-500"
+                              <Link
+                                    to={"/signup"}
+                                    className="text-lg  px-4 py-2 rounded-lg hover:text-blue-600"
                               >
                                     Login
-                              </a>
-                              <a
-                                    href="#signup"
+                              </Link>
+                              <Link
+                                    to={"/signup"}
                                     className="text-lg bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                               >
                                     Sign Up
-                              </a>
+                              </Link>
                         </div>
                         <button
                               className="md:hidden text-2xl"
