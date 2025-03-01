@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Mail, Lock, Loader } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
+import { useAuthStore } from "../store/authStore";
 
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
+    const { login, isLoading, error } = useAuthStore();
+    const navigate = useNavigate();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
+        try {
+			await login(email, password);
+			navigate("/dashboard");
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -47,16 +55,16 @@ const LoginPage = () => {
 							Forgot password?
 						</Link>
 					</div>
-					{/* {error && <p className='text-red-500 font-semibold mb-2'>{error}</p>} */}
+					{error && <p className='text-red-500 font-semibold mb-2'>{error}</p>}
 
 					<motion.button
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
 						className='mt-5 w-full py-3 px-4 bg-gray-800 text-white font-bold rounded-lg shadow-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-white transition duration-200'
 						type='submit'
-						// disabled={isLoading}
-					>Login
-						{/* {isLoading ? <Loader className='w-6 h-6 animate-spin mx-auto' /> : "Login"} */}
+						disabled={isLoading}
+					>
+						{isLoading ? <Loader className='w-6 h-6 animate-spin mx-auto' /> : "Login"}
 					</motion.button>
 				</form>
 			</div>

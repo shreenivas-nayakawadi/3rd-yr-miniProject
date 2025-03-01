@@ -38,29 +38,30 @@ const Home = () => {
                         <div className="hidden md:flex space-x-8">
                               <a
                                     href="#about"
-                                    className="text-lg hover:text-blue-500"
+                                    className="text-lg px-4 py-2 rounded-lg hover:text-blue-500"
                               >
                                     About
                               </a>
                               <a
                                     href="#contact"
-                                    className="text-lg hover:text-blue-500"
+                                    className="text-lg px-4 py-2 rounded-lg hover:text-blue-500"
                               >
                                     Contact
                               </a>
                               <Link
-                                    to={"/signup"}
-                                    className="text-lg  px-4 py-2 rounded-lg hover:text-blue-600"
+                                    to="/login"
+                                    className="text-lg px-4 py-2 rounded-lg hover:text-blue-600"
                               >
                                     Login
                               </Link>
                               <Link
-                                    to={"/signup"}
+                                    to="/signup"
                                     className="text-lg bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                               >
                                     Sign Up
                               </Link>
                         </div>
+
                         <button
                               className="md:hidden text-2xl"
                               onClick={() => setIsMenuOpen(!isMenuOpen)}

@@ -1,17 +1,27 @@
 import { motion } from "framer-motion";
-import { Lock, Mail, User } from "lucide-react";
+import { Loader, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import PasswordStrength from "../components/PasswordStrength";
+import { useAuthStore } from "../store/authStore";
 
 const SignUpPage = () => {
-	const [name, setName] = useState("");
+	const [username, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
+
+	const { signup, error, isLoading } = useAuthStore();
 
 	const handleSignUp = async (e) => {
 		e.preventDefault();
+		try {
+			await signup(email, password, username);
+			navigate("/dashboard");
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -19,10 +29,10 @@ const SignUpPage = () => {
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
-			className='max-w-md w-full bg-white bg-opacity-90 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
+			className='max-w-md w-full bg-white bg-opacity-90 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden mx-4 sm:mx-auto'
 		>
-			<div className='p-8'>
-				<h2 className='text-3xl font-bold mb-6 text-center text-gray-800'>
+			<div className='p-6 sm:p-8'>
+				<h2 className='text-2xl sm:text-3xl font-bold mb-6 text-center text-gray-800'>
 					Create Account
 				</h2>
 
@@ -31,7 +41,7 @@ const SignUpPage = () => {
 						icon={User}
 						type='text'
 						placeholder='Full Name'
-						value={name}
+						value={username}
 						onChange={(e) => setName(e.target.value)}
 					/>
 					<Input
@@ -48,7 +58,7 @@ const SignUpPage = () => {
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 					/>
-					{/* {error && <p className='text-red-500 font-semibold mt-2'>{error}</p>} */}
+					{error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
 					<PasswordStrength password={password} />
 
 					<motion.button
@@ -56,13 +66,13 @@ const SignUpPage = () => {
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
 						type='submit'
+						disabled={isLoading}
 					>
-						Signup
-						{/* {isLoading ? <Loader className=' animate-spin mx-auto' size={24} /> : "Sign Up"} */}
+						{isLoading ? <Loader className='animate-spin mx-auto' size={24} /> : "Sign Up"}
 					</motion.button>
 				</form>
 			</div>
-			<div className='px-8 py-4 bg-gray-100 flex justify-center'>
+			<div className='px-6 py-4 bg-gray-100 flex justify-center'>
 				<p className='text-sm text-gray-600'>
 					Already have an account?{" "}
 					<Link to={'/login'} className='text-gray-800 hover:underline'>

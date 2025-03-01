@@ -1,6 +1,6 @@
-import bcrypt from 'bcrypt';
-import prisma from '../models/prisma.js';  
-import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';  
+import bcrypt from "bcrypt";
+import prisma from "../models/prisma.js";
+import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 
 const authController = {
       signup: async (req, res) => {
@@ -30,7 +30,11 @@ const authController = {
 
                   generateTokenAndSetCookie(res, newUser.user_id);
 
-                  res.status(201).json(newUser);
+                  res.status(201).json({
+                        success: true,
+                        message: "Logged in successfully",
+                        user: { ...newUser, password: undefined },
+                  });
             } catch (error) {
                   console.log("Error in signup", error.message);
                   res.status(400).json({
@@ -40,33 +44,48 @@ const authController = {
             }
       },
 
-      login : async (req, res) => {
+      login: async (req, res) => {
             try {
-              const { email, password } = req.body;
-          
-              // Find user by email
-              const user = await prisma.user.findUnique({
-                where: { email },
-              });
-          
-              // Check if user exists and if the password is correct
-              if (user && (await bcrypt.compare(password, user.password))) {
-                // Generate token and set in cookie
-                generateTokenAndSetCookie(res, user.user_id);
-          
-                // Return user data, excluding the password
-                res.json({
-                  message: "Logged in successfully",
-                  data: { ...user, password: undefined },
-                });
-              } else {
-                res.status(400).json({ error: "Invalid credentials" });
-              }
+                  const { email, password } = req.body;
+
+                  // Find user by email
+                  const user = await prisma.user.findUnique({
+                        where: { email },
+                  });
+
+                  if (!user) {
+                        return res.status(400).json({
+                              success: false,
+                              message: "Invalid credentials",
+                        });
+                  }
+                  const isPasswordValid = await bcrypt.compare(
+                        password,
+                        user.password
+                  );
+                  if (!isPasswordValid) {
+                        return res.status(400).json({
+                              success: false,
+                              message: "Invalid credentials",
+                        });
+                  }
+
+                  generateTokenAndSetCookie(res, user.user_id);
+
+                  // Return user data, excluding the password
+                  res.json({
+                        success: true,
+                        message: "Logged in successfully",
+                        user: { ...user, password: undefined },
+                  });
             } catch (error) {
-              console.error('Login error:', error);
-              res.status(500).json({ error: 'Internal server error' });
+                  console.log("Error in login ", error);
+                  res.status(400).json({
+                        success: false,
+                        message: error.message,
+                  });
             }
-          },
+      },
 
       logout: async (req, res) => {
             res.clearCookie("token");
