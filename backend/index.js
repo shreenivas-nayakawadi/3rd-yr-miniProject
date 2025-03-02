@@ -3,18 +3,18 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import authRoutes from "./routes/authRoutes.js";
+import budgetRoutes from "./routes/budgetRoutes.js";
 
 const app = express();
 const prisma = new PrismaClient();
 
-
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 dotenv.config();
 app.use(express.json());
 
-
 //routes
 app.use("/api/auth", authRoutes);
+app.use("/api/budget", budgetRoutes);
 
 const PORT = process.env.PORT || 5000;
 
