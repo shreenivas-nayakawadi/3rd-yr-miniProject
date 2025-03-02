@@ -117,7 +117,7 @@ const Home = () => {
                         <img
                               src="/Banner.webp"
                               alt="Budget Management Banner"
-                              className="w-3/4 h-64 object-cover rounded-2xl shadow-lg"
+                              className="w-3/4 h-64 object-fit rounded-2xl shadow-lg"
                         />
                   </div>
 
