@@ -89,6 +89,7 @@ const budgetController = {
                   const budgets = await prisma.budget.findMany({
                         where: { user_id },
                   });
+                  console.log(budgets)
                   res.status(200).json(budgets);
             } catch (error) {
                   res.status(400).json({ error: error.message });

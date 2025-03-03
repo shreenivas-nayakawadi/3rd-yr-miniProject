@@ -6,6 +6,9 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import { useAuthStore } from "./store/authStore";
 import { Navigate } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import UserPage from "./pages/UserPage";
+import Demo from "./pages/Demo";
 
 function App() {
       // protect routes that require authentication
@@ -20,22 +23,34 @@ function App() {
       };
 
       return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-                  <Routes>
-                        <Route path="/" element={<Home />} />
+            <div className="min-h-screen  bg-gray-100">
+                  <Navbar />
+                  <div className="p-2 flex flex-col items-center justify-center">
+                        <Routes>
+                              <Route path="/" element={<Home />} />
 
-                        <Route
-                              path="/dashboard"
-                              element={
-                                    <ProtectedRoute>
-                                          <DashboardPage />
-                                    </ProtectedRoute>
-                              }
-                        />
+                              <Route
+                                    path="/dashboard"
+                                    element={
+                                          <ProtectedRoute>
+                                                <DashboardPage />
+                                          </ProtectedRoute>
+                                    }
+                              />
+                              <Route
+                                    path="/user"
+                                    element={
+                                          <ProtectedRoute>
+                                                <UserPage />
+                                          </ProtectedRoute>
+                                    }
+                              />
 
-                        <Route path="/signup" element={<SignUpPage />} />
-                        <Route path="/login" element={<LoginPage />} />
-                  </Routes>
+                              <Route path="/signup" element={<SignUpPage />} />
+                              <Route path="/demo" element={<Demo />} />
+                              <Route path="/login" element={<LoginPage />} />
+                        </Routes>
+                  </div>
             </div>
       );
 }
