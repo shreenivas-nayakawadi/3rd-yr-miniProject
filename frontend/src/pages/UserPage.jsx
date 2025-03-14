@@ -1,5 +1,4 @@
 import { useAuthStore } from "../store/authStore";
-// import { formatDate } from "../utils/date";
 
 const UserPage = () => {
       const { user, logout } = useAuthStore();
@@ -54,10 +53,6 @@ const AccountActivity = ({ user }) => (
                         day: "numeric",
                   })}
             </p>
-            {/* <p className="text-gray-700">
-                  <span className="font-bold">Last Login: </span>
-                  {formatDate(user.lastLogin)}
-            </p> */}
       </div>
 );
 

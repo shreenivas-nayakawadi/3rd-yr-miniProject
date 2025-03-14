@@ -15,6 +15,9 @@ import {
       FaTrash,
       FaPlus,
 } from "react-icons/fa";
+import CreateBudgetModal from "./Modals/CreateBudgetModal";
+import EditBudgetModal from "./Modals/EditBudgetModal";
+import DeleteBudgetModal from "./Modals/DeleteBudgetModal";
 
 const categoryIcons = {
       Savings: <FaPiggyBank className="text-blue-500" />,
@@ -52,9 +55,12 @@ const getSuggestionColor = (percentage) => {
 };
 
 const BudgetCard = ({ budget }) => {
-      const usedAmount = 0;
+      const usedAmount = budget.spent_amount;
       const percentage = (usedAmount / budget.total_amount) * 100;
       const [menuOpen, setMenuOpen] = useState(false);
+      const [isEditBudgetModalOpen, setIsEditBudgetModalOpen] = useState(false);
+      const [isDeleteBudgetModalOpen, setIsDeleteBudgetModalOpen] =
+            useState(false);
 
       return (
             <Card className="p-4 rounded-2xl shadow-lg flex items-center gap-4">
@@ -77,14 +83,46 @@ const BudgetCard = ({ budget }) => {
                                     </button>
                                     {menuOpen && (
                                           <div className="absolute right-4 top-6 bg-gray-100 shadow-md rounded-md p-1 z-10">
-                                                <button className="flex items-center gap-2 text-sm  hover:bg-gray-100 px-2 py-1 rounded">
+                                                <button
+                                                      className="flex items-center gap-2 text-sm  hover:bg-gray-100 px-2 py-1 rounded"
+                                                      onClick={() => {
+                                                            setIsEditBudgetModalOpen(
+                                                                  true
+                                                            );
+                                                            setMenuOpen(false);
+                                                      }}
+                                                >
                                                       <FaEdit /> Edit
                                                 </button>
-                                                <button className="flex items-center gap-2 text-sm  hover:bg-gray-100 px-2 py-1 rounded">
+                                                <button
+                                                      className="flex items-center gap-2 text-sm  hover:bg-gray-100 px-2 py-1 rounded"
+                                                      onClick={() => {
+                                                            setIsDeleteBudgetModalOpen(
+                                                                  true
+                                                            );
+                                                            setMenuOpen(false);
+                                                      }}
+                                                >
                                                       <FaTrash /> Delete
                                                 </button>
                                           </div>
                                     )}
+                                    <EditBudgetModal
+                                          budget={budget}
+                                          isOpen={isEditBudgetModalOpen}
+                                          onClose={() =>
+                                                setIsEditBudgetModalOpen(false)
+                                          }
+                                    />
+                                    <DeleteBudgetModal
+                                          isOpen={isDeleteBudgetModalOpen}
+                                          onClose={() =>
+                                                setIsDeleteBudgetModalOpen(
+                                                      false
+                                                )
+                                          }
+                                          budgetId={budget.budget_id}
+                                    />
                               </div>
                         </div>
 
@@ -112,22 +150,40 @@ const BudgetCard = ({ budget }) => {
 };
 
 const BudgetGrid = ({ budgets }) => {
+      const [isCreateBudgetModalOpen, setisCreateBudgetModalOpen] =
+            useState(false);
+
       return (
             <div className="w-full p-4">
                   <div className="flex items-center justify-between">
                         <h2 className="text-2xl font-bold mb-4">Budgets</h2>
-                        <button className="flex items-center gap-2 text-lg bg-black text-white hover:bg-gray-800 px-2 py-1 rounded-md">
+                        <button
+                              onClick={() => setisCreateBudgetModalOpen(true)}
+                              className="flex items-center gap-2 text-lg bg-black text-white hover:bg-gray-800 px-2 py-1 rounded-md"
+                        >
                               <FaPlus /> Create
                         </button>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {budgets.map((budget) => (
-                              <BudgetCard
-                                    key={budget.budget_id}
-                                    budget={budget}
-                              />
-                        ))}
+                  <div className="min-h-[200px] flex items-center justify-center">
+                        {budgets.length === 0 ? (
+                              <p className="text-center text-gray-500">
+                                    No budgets available. Start by creating one!
+                              </p>
+                        ) : (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                                    {budgets.map((budget) => (
+                                          <BudgetCard
+                                                key={budget.budget_id}
+                                                budget={budget}
+                                          />
+                                    ))}
+                              </div>
+                        )}
                   </div>
+                  <CreateBudgetModal
+                        isOpen={isCreateBudgetModalOpen}
+                        onClose={() => setisCreateBudgetModalOpen(false)}
+                  />
             </div>
       );
 };

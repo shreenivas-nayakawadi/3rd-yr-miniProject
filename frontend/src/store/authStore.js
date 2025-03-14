@@ -73,6 +73,8 @@ export const useAuthStore = create(
           throw error;
         }
       },
+
+      setError: (error) => set({ error }), // Added this function to clear errors
     }),
     {
       name: "auth-storage", // key for localStorage
