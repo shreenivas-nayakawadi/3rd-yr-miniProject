@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import UserPage from "./pages/UserPage";
 import Demo from "./pages/Demo";
 import { Toaster } from "react-hot-toast";
+import TransactionPage from "./pages/TransactionPage";
 
 function App() {
       // protect routes that require authentication
@@ -45,6 +46,14 @@ function App() {
                                     element={
                                           <ProtectedRoute>
                                                 <DashboardPage />
+                                          </ProtectedRoute>
+                                    }
+                              />
+                              <Route
+                                    path="/transaction/:id"
+                                    element={
+                                          <ProtectedRoute>
+                                                <TransactionPage />
                                           </ProtectedRoute>
                                     }
                               />

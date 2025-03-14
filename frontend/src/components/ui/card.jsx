@@ -1,11 +1,8 @@
-import React from 'react';
-
-export const Card = ({ children, className = '' }) => (
-  <div className={`bg-white rounded-2xl shadow-lg p-4 ${className}`}>
+export const Card = ({ children, className = '', ...props }) => (
+  <div 
+    className={`bg-white rounded-2xl shadow-lg p-4 ${className}`} 
+    {...props} // Spread props so onClick and others get passed
+  >
     {children}
   </div>
-);
-
-export const CardContent = ({ children }) => (
-  <div className="p-2">{children}</div>
 );
