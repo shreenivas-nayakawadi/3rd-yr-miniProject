@@ -1,5 +1,5 @@
-import { useAuthStore } from "../../store/authStore";
-import { useBudgetStore } from "../../store/budgetStore";
+import { useAuthStore } from "../../../store/authStore";
+import { useBudgetStore } from "../../../store/budgetStore";
 import { toast } from "react-hot-toast";
 
 const DeleteBudgetModal = ({ isOpen, onClose, budgetId }) => {
@@ -21,7 +21,7 @@ const DeleteBudgetModal = ({ isOpen, onClose, budgetId }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-transparent bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden mx-4 sm:mx-auto">
                 <div className="p-6 sm:p-8">
                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">

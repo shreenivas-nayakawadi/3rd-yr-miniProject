@@ -4,6 +4,7 @@ import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import authRoutes from "./routes/authRoutes.js";
 import budgetRoutes from "./routes/budgetRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -15,6 +16,7 @@ app.use(express.json());
 //routes
 app.use("/api/auth", authRoutes);
 app.use("/api/budget", budgetRoutes);
+app.use("/api/transaction", transactionRoutes);
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,7 +1,7 @@
-import EditBudgetModal from "./Modals/EditBudgetModal";
-import DeleteBudgetModal from "./Modals/DeleteBudgetModal";
-import { Card } from "../components/ui/card";
-import { Progress } from "../components/ui/progress";
+import EditBudgetModal from "../Modals/BudgetModals/EditBudgetModal";
+import DeleteBudgetModal from "../Modals/BudgetModals/DeleteBudgetModal";
+import { Card } from "../ui/card";
+import { Progress } from "../ui/progress";
 import {
       FaPiggyBank,
       FaPlane,
@@ -14,9 +14,10 @@ import {
       FaEllipsisV,
       FaEdit,
       FaTrash,
+      FaExternalLinkAlt,
 } from "react-icons/fa";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 
 const categoryIcons = {
       Savings: <FaPiggyBank className="text-blue-500" />,
@@ -53,7 +54,7 @@ const getSuggestionColor = (percentage) => {
       return "text-red-600";
 };
 
-const BudgetCard = ({ budget, isMenuOpen, onMenuToggle }) => {
+const BudgetCard = ({ budget, isMenuOpen, onMenuToggle, menuRef }) => {
       const usedAmount = budget.spent_amount;
       const percentage = Math.floor((usedAmount / budget.total_amount) * 100);
       const [isEditBudgetModalOpen, setIsEditBudgetModalOpen] = useState(false);
@@ -62,15 +63,14 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle }) => {
       const navigate = useNavigate();
 
       const handleCardClick = (e) => {
-            if (e.target.closest(".menu-button")) return;
+            // setIsEditBudgetModalOpen(false);
+            // setIsDeleteBudgetModalOpen(false);
+            onMenuToggle();
             navigate(`/transaction/${budget.budget_id}`);
       };
 
       return (
-            <Card
-                  className="p-4 rounded-2xl shadow-lg flex items-center gap-4 cursor-pointer"
-                  onClick={handleCardClick}
-            >
+            <Card className="p-4 rounded-2xl shadow-lg flex items-center gap-4 ">
                   <div className="text-3xl">
                         {categoryIcons[budget.category] || (
                               <FaGift className="text-gray-400" />
@@ -84,19 +84,28 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle }) => {
                               <div className="relative">
                                     <button
                                           onClick={(e) => {
-                                                e.stopPropagation();
                                                 onMenuToggle();
                                           }}
-                                          className="text-gray-500 hover:text-gray-700 z-10 cursor-pointer menu-button"
+                                          className="text-gray-500 hover:text-gray-700 z-10 cursor-pointer "
                                     >
                                           <FaEllipsisV />
                                     </button>
                                     {isMenuOpen && (
-                                          <div className="absolute right-4 top-6 bg-gray-100 shadow-md rounded-md p-1 z-10">
+                                          <div
+                                                className="absolute right-4 top-6 bg-gray-100 shadow-md rounded-md p-1 z-10"
+                                                ref={menuRef}
+                                          >
                                                 <button
-                                                      className="flex items-center gap-2 text-sm hover:bg-gray-100 px-2 py-1 rounded"
+                                                      className="flex items-center gap-2 text-sm hover:bg-gray-100 px-2 py-1 rounded cursor-pointer"
                                                       onClick={(e) => {
-                                                            e.stopPropagation();
+                                                            handleCardClick();
+                                                      }}
+                                                >
+                                                      <FaExternalLinkAlt /> Open
+                                                </button>
+                                                <button
+                                                      className="flex items-center gap-2 text-sm hover:bg-gray-100 px-2 py-1 rounded cursor-pointer"
+                                                      onClick={(e) => {
                                                             setIsEditBudgetModalOpen(
                                                                   true
                                                             );
@@ -105,9 +114,8 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle }) => {
                                                       <FaEdit /> Edit
                                                 </button>
                                                 <button
-                                                      className="flex items-center gap-2 text-sm hover:bg-gray-100 px-2 py-1 rounded"
+                                                      className="flex items-center gap-2 text-sm hover:bg-gray-100 px-2 py-1 rounded cursor-pointer"
                                                       onClick={(e) => {
-                                                            e.stopPropagation();
                                                             setIsDeleteBudgetModalOpen(
                                                                   true
                                                             );
@@ -121,14 +129,12 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle }) => {
                                           budget={budget}
                                           isOpen={isEditBudgetModalOpen}
                                           onClose={(e) => {
-                                                e.stopPropagation();
                                                 setIsEditBudgetModalOpen(false);
                                           }}
                                     />
                                     <DeleteBudgetModal
                                           isOpen={isDeleteBudgetModalOpen}
                                           onClose={(e) => {
-                                                e.stopPropagation();
                                                 setIsDeleteBudgetModalOpen(
                                                       false
                                                 );
@@ -145,9 +151,14 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle }) => {
                                     )} h-2 rounded-full`}
                               />
                         </div>
-                        <p className="text-sm text-gray-600">
-                              {usedAmount}/{budget.total_amount} ({percentage}%)
-                        </p>
+                        <div className="flex justify-between w-full">
+                              <p className="text-sm text-gray-900 mx-2">
+                                    {usedAmount}/{budget.total_amount}
+                              </p>
+                              <p className="text-sm text-gray-400 mx-2">
+                                    {percentage}% used
+                              </p>
+                        </div>
                         <p
                               className={`text-sm font-medium mt-1 ${getSuggestionColor(
                                     percentage

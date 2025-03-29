@@ -119,8 +119,8 @@ export const useBudgetStore = create(
                   setError: (error) => set({ error }),
             }),
             {
-                  name: "budget-storage", // key for localStorage
-                  getStorage: () => localStorage, // uses localStorage to persist state
+                  name: "budget-storage",
+                  getStorage: () => localStorage,
             }
       )
 );

@@ -1,19 +1,19 @@
 const teamMembers = [
     {
           name: "Shreenivas Nayakawadi",
-          email: "shreenivas@gmail.com",
+          email: "1ds22is143@dsce.edu.in",
     },
     {
           name: "Shreesha A",
-          email: "shreesha@gmail.com",
+          email: "1ds22is144@dsce.edu.in",
     },
     {
           name: "Siddeshwar M",
-          email: "siddeshwar@gmail.com",
+          email: "1ds22is155@dsce.edu.in",
     },
     {
           name: "Prashant S N",
-          email: "prashant@gmail.com",
+          email: "1ds23is415@dsce.edu.in",
     },
 ];
 

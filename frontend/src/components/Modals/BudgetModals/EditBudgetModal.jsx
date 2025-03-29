@@ -1,14 +1,21 @@
 import { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
-import { DollarSign, Calendar, FileText } from "lucide-react";
-import Input from "../Input";
-import { useBudgetStore } from "../../store/budgetStore";
-import { useAuthStore } from "../../store/authStore";
+import { IndianRupeeIcon , Calendar, FileText } from "lucide-react";
+import Input from "../../Input";
+import { useBudgetStore } from "../../../store/budgetStore";
+import { useAuthStore } from "../../../store/authStore";
 import { toast } from "react-hot-toast";
 
-const CreateBudgetModal = ({ isOpen, onClose }) => {
+const EditBudgetModal = ({ isOpen, onClose, budget }) => {
+      const [formData, setFormData] = useState({
+            budgetName: budget.budget_name,
+            totalAmount: budget.total_amount,
+            endDate: new Date(budget.end_date).toISOString().split("T")[0],
+            category: budget.category,
+      });
+
       const {
-            createBudget,
+            updateBudget,
             isLoading,
             error,
             setError,
@@ -16,13 +23,6 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
             categories,
       } = useBudgetStore();
       const { user } = useAuthStore();
-
-      const [formData, setFormData] = useState({
-            budgetName: "",
-            totalAmount: "",
-            endDate: "",
-            category: "",
-      });
 
       useEffect(() => {
             if (isOpen) {
@@ -37,10 +37,12 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
 
       const resetForm = () => {
             setFormData({
-                  budgetName: "",
-                  totalAmount: "",
-                  endDate: "",
-                  category: "",
+                  budgetName: budget.budget_name,
+                  totalAmount: budget.total_amount,
+                  endDate: new Date(budget.end_date)
+                        .toISOString()
+                        .split("T")[0],
+                  category: budget.category,
             });
       };
 
@@ -51,6 +53,7 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
 
       const handleSubmit = async (e) => {
             e.preventDefault();
+            e.stopPropagation();
             const today = new Date().toISOString().split("T")[0];
 
             const { budgetName, totalAmount, endDate, category } = formData;
@@ -67,15 +70,17 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
             const budgetData = {
                   budget_name: budgetName,
                   total_amount: parseFloat(totalAmount),
-                  spent_amount: 0,
-                  start_date: today,
                   end_date: endDate,
                   category,
             };
 
             try {
-                  await createBudget(user.user_id, budgetData);
-                  toast.success("Budget created successfully");
+                  await updateBudget(
+                        user.user_id,
+                        budget.budget_id,
+                        budgetData
+                  );
+                  toast.success("Budget updated successfully");
                   onClose();
                   resetForm();
             } catch (err) {
@@ -86,12 +91,12 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
       if (!isOpen) return null;
 
       return (
-            <div className="fixed inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-transparent bg-opacity-10 backdrop-blur-sm flex items-center justify-center z-50">
                   <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden mx-4 sm:mx-auto">
                         <div className="p-6 sm:p-8">
                               <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-                                          Create Budget
+                                          Update Budget
                                     </h2>
                                     <button onClick={onClose}>
                                           <FaTimes className="text-gray-600 hover:text-red-500" />
@@ -110,7 +115,7 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
                                                 label: "Budget Amount",
                                                 name: "totalAmount",
                                                 type: "number",
-                                                icon: DollarSign,
+                                                icon: IndianRupeeIcon ,
                                           },
                                           {
                                                 label: "End Date",
@@ -162,15 +167,14 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
                                                 {error}
                                           </p>
                                     )}
-
                                     <button
                                           type="submit"
                                           disabled={isLoading}
                                           className="mt-4 w-full py-3 px-4 bg-gray-800 text-white font-bold rounded-lg shadow-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-200"
                                     >
                                           {isLoading
-                                                ? "Creating..."
-                                                : "Create Budget"}
+                                                ? "Updating..."
+                                                : "Update Budget"}
                                     </button>
                               </form>
                         </div>
@@ -179,4 +183,4 @@ const CreateBudgetModal = ({ isOpen, onClose }) => {
       );
 };
 
-export default CreateBudgetModal;
+export default EditBudgetModal;

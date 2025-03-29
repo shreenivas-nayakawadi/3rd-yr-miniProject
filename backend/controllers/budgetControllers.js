@@ -3,7 +3,6 @@ import { PrismaClient, BudgetCategory } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const budgetController = {
-      // Create Budget
       createBudget: async (req, res) => {
             const { user_id } = req.params;
             const {
@@ -15,7 +14,6 @@ const budgetController = {
             } = req.body;
 
             try {
-                  // Ensure the dates are properly parsed and validated
                   const parsedStartDate = new Date(start_date);
                   const parsedEndDate = new Date(end_date);
 
@@ -28,7 +26,6 @@ const budgetController = {
                               .json({ error: "Invalid date format" });
                   }
 
-                  // Check if budget already exists
                   const existingBudget = await prisma.budget.findFirst({
                         where: {
                               budget_name,
@@ -50,7 +47,7 @@ const budgetController = {
                               user_id,
                               budget_name,
                               total_amount: parseFloat(total_amount),
-                              spent_amount: 0, // Default value
+                              spent_amount: 0, 
                               start_date: parsedStartDate,
                               end_date: parsedEndDate,
                               category,

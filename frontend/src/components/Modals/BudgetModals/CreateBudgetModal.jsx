@@ -1,21 +1,14 @@
 import { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
-import { DollarSign, Calendar, FileText } from "lucide-react";
-import Input from "../Input";
-import { useBudgetStore } from "../../store/budgetStore";
-import { useAuthStore } from "../../store/authStore";
+import { IndianRupeeIcon, Calendar, FileText } from "lucide-react";
+import Input from "../../Input";
+import { useBudgetStore } from "../../../store/budgetStore";
+import { useAuthStore } from "../../../store/authStore";
 import { toast } from "react-hot-toast";
 
-const EditBudgetModal = ({ isOpen, onClose, budget }) => {
-      const [formData, setFormData] = useState({
-            budgetName: budget.budget_name,
-            totalAmount: budget.total_amount,
-            endDate: new Date(budget.end_date).toISOString().split("T")[0],
-            category: budget.category,
-      });
-
+const CreateBudgetModal = ({ isOpen, onClose }) => {
       const {
-            updateBudget,
+            createBudget,
             isLoading,
             error,
             setError,
@@ -23,6 +16,13 @@ const EditBudgetModal = ({ isOpen, onClose, budget }) => {
             categories,
       } = useBudgetStore();
       const { user } = useAuthStore();
+
+      const [formData, setFormData] = useState({
+            budgetName: "",
+            totalAmount: "",
+            endDate: "",
+            category: "",
+      });
 
       useEffect(() => {
             if (isOpen) {
@@ -37,12 +37,10 @@ const EditBudgetModal = ({ isOpen, onClose, budget }) => {
 
       const resetForm = () => {
             setFormData({
-                  budgetName: budget.budget_name,
-                  totalAmount: budget.total_amount,
-                  endDate: new Date(budget.end_date)
-                        .toISOString()
-                        .split("T")[0],
-                  category: budget.category,
+                  budgetName: "",
+                  totalAmount: "",
+                  endDate: "",
+                  category: "",
             });
       };
 
@@ -69,16 +67,14 @@ const EditBudgetModal = ({ isOpen, onClose, budget }) => {
             const budgetData = {
                   budget_name: budgetName,
                   total_amount: parseFloat(totalAmount),
+                  spent_amount: 0,
+                  start_date: today,
                   end_date: endDate,
                   category,
             };
 
             try {
-                  await updateBudget(
-                        user.user_id,
-                        budget.budget_id,
-                        budgetData
-                  );
+                  await createBudget(user.user_id, budgetData);
                   toast.success("Budget created successfully");
                   onClose();
                   resetForm();
@@ -90,12 +86,12 @@ const EditBudgetModal = ({ isOpen, onClose, budget }) => {
       if (!isOpen) return null;
 
       return (
-            <div className="fixed inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-transparent bg-opacity-10 backdrop-blur-sm flex items-center justify-center z-50">
                   <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden mx-4 sm:mx-auto">
                         <div className="p-6 sm:p-8">
                               <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
-                                          Update Budget
+                                          Create Budget
                                     </h2>
                                     <button onClick={onClose}>
                                           <FaTimes className="text-gray-600 hover:text-red-500" />
@@ -114,7 +110,7 @@ const EditBudgetModal = ({ isOpen, onClose, budget }) => {
                                                 label: "Budget Amount",
                                                 name: "totalAmount",
                                                 type: "number",
-                                                icon: DollarSign,
+                                                icon: IndianRupeeIcon,
                                           },
                                           {
                                                 label: "End Date",
@@ -166,14 +162,15 @@ const EditBudgetModal = ({ isOpen, onClose, budget }) => {
                                                 {error}
                                           </p>
                                     )}
+
                                     <button
                                           type="submit"
                                           disabled={isLoading}
                                           className="mt-4 w-full py-3 px-4 bg-gray-800 text-white font-bold rounded-lg shadow-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-200"
                                     >
                                           {isLoading
-                                                ? "Updating..."
-                                                : "Update Budget"}
+                                                ? "Creating..."
+                                                : "Create Budget"}
                                     </button>
                               </form>
                         </div>
@@ -182,4 +179,4 @@ const EditBudgetModal = ({ isOpen, onClose, budget }) => {
       );
 };
 
-export default EditBudgetModal;
+export default CreateBudgetModal;

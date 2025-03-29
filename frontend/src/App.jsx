@@ -8,7 +8,6 @@ import { useAuthStore } from "./store/authStore";
 import { Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import UserPage from "./pages/UserPage";
-import Demo from "./pages/Demo";
 import { Toaster } from "react-hot-toast";
 import TransactionPage from "./pages/TransactionPage";
 
@@ -50,7 +49,7 @@ function App() {
                                     }
                               />
                               <Route
-                                    path="/transaction/:id"
+                                    path="/transaction/:budgetId"
                                     element={
                                           <ProtectedRoute>
                                                 <TransactionPage />
@@ -74,7 +73,6 @@ function App() {
                                           </AuthenticatedRoute>
                                     }
                               />
-                              <Route path="/demo" element={<Demo />} />
                               <Route
                                     path="/login"
                                     element={

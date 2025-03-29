@@ -39,6 +39,7 @@ model Transaction {
   budget_id        String
   user_id          String
   transaction_type TransactionType
+  category         BudgetCategory
   amount           Float
   description      String
   transaction_date DateTime        @default(now())
