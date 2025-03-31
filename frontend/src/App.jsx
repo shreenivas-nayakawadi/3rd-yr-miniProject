@@ -10,6 +10,8 @@ import Navbar from "./components/Navbar";
 import UserPage from "./pages/UserPage";
 import { Toaster } from "react-hot-toast";
 import TransactionPage from "./pages/TransactionPage";
+import AllTransactions from "./pages/AllTransactions";
+import Budgets from "./pages/Budgets";
 
 function App() {
       // protect routes that require authentication
@@ -64,6 +66,22 @@ function App() {
                                           </ProtectedRoute>
                                     }
                               />
+                              <Route
+                                    path="/allTransactions"
+                                    element={
+                                          <ProtectedRoute>
+                                                <AllTransactions />
+                                          </ProtectedRoute>
+                                    }
+                              />
+                              <Route
+                                    path="/budgets"
+                                    element={
+                                          <ProtectedRoute>
+                                                <Budgets />
+                                          </ProtectedRoute>
+                                    }
+                              />
 
                               <Route
                                     path="/signup"
@@ -77,7 +95,7 @@ function App() {
                                     path="/login"
                                     element={
                                           <AuthenticatedRoute>
-                                                <LoginPage />{" "}
+                                                <LoginPage />
                                           </AuthenticatedRoute>
                                     }
                               />

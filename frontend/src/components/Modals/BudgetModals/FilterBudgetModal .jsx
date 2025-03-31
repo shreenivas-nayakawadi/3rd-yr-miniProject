@@ -36,6 +36,7 @@ const FilterBudgetModal = ({
                   categories: [],
                   activeOnly: false,
             });
+            onClose();
       };
 
       return (

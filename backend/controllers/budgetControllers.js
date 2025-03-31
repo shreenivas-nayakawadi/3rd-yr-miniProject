@@ -66,7 +66,7 @@ const budgetController = {
       // Update Budget
       updateBudget: async (req, res) => {
             const { user_id, budget_id } = req.params;
-            const { budget_name, total_amount, end_date, category } = req.body;
+            const { budget_name, total_amount, end_date, category,spent_amount } = req.body;
 
             try {
                   const existingBudget = await prisma.budget.findFirst({
@@ -94,6 +94,7 @@ const budgetController = {
                         data: {
                               budget_name,
                               total_amount,
+                              spent_amount,
                               end_date: new Date(end_date),
                               category,
                         },

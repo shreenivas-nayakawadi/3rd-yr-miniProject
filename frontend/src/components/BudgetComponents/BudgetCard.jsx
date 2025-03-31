@@ -30,6 +30,7 @@ const categoryIcons = {
 };
 
 const getProgressColor = (percentage) => {
+      if (percentage < 0) return "bg-transparent";
       if (percentage < 25) return "bg-blue-500";
       if (percentage < 50) return "bg-green-500";
       if (percentage < 75) return "bg-orange-500";
@@ -38,6 +39,8 @@ const getProgressColor = (percentage) => {
 };
 
 const getBudgetSuggestion = (percentage) => {
+      if (percentage < 0) return "Income is more than expenditure!";
+      if (percentage === 0) return "You're not using your budget yet.";
       if (percentage < 25) return "You're well within your budget!";
       if (percentage < 50) return "You're managing your budget efficiently.";
       if (percentage < 75) return "You're getting closer to your budget limit.";
@@ -47,6 +50,8 @@ const getBudgetSuggestion = (percentage) => {
 };
 
 const getSuggestionColor = (percentage) => {
+      if (percentage < 0) return "text-gray-400";
+      if (percentage === 0) return "text-gray-900";
       if (percentage < 25) return "text-green-500";
       if (percentage < 50) return "text-blue-500";
       if (percentage < 75) return "text-yellow-500";
@@ -63,8 +68,6 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle, menuRef }) => {
       const navigate = useNavigate();
 
       const handleCardClick = (e) => {
-            // setIsEditBudgetModalOpen(false);
-            // setIsDeleteBudgetModalOpen(false);
             onMenuToggle();
             navigate(`/transaction/${budget.budget_id}`);
       };
@@ -151,12 +154,12 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle, menuRef }) => {
                                     )} h-2 rounded-full`}
                               />
                         </div>
-                        <div className="flex justify-between w-full">
+                        <div className="flex justify-between w-full mt-1">
                               <p className="text-sm text-gray-900 mx-2">
                                     {usedAmount}/{budget.total_amount}
                               </p>
                               <p className="text-sm text-gray-400 mx-2">
-                                    {percentage}% used
+                                    {percentage >= 0 ? percentage : 0}% used
                               </p>
                         </div>
                         <p

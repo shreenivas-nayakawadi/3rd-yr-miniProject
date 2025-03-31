@@ -1,76 +1,3 @@
-// import React, { useState,useEffect,useRef } from "react";
-// import { FaPlus } from "react-icons/fa";
-// import CreateBudgetModal from "./Modals/BudgetModals/CreateBudgetModal";
-// import BudgetCard from "./BudgetCard";
-
-// const BudgetGrid = ({ budgets }) => {
-//       const [isCreateBudgetModalOpen, setisCreateBudgetModalOpen] =
-//             useState(false);
-//       const [openMenuId, setOpenMenuId] = useState(null);
-//       const menuRef = useRef(null);
-
-//       const handleMenuToggle = (budgetId) => {
-//             setOpenMenuId(openMenuId === budgetId ? null : budgetId);
-//       };
-//       useEffect(() => {
-//             const handleClickOutside = (event) => {
-//                 if (menuRef.current && !menuRef.current.contains(event.target)) {
-//                     setOpenMenuId(null);
-//                 }
-//             };
-//             document.addEventListener("mousedown", handleClickOutside);
-//             return () => {
-//                 document.removeEventListener("mousedown", handleClickOutside);
-//             };
-//         }, []);
-
-//       return (
-//             <div className="w-full p-4">
-//                   <div className="flex items-center justify-between">
-//                         <h2 className="text-2xl font-bold mb-4">Budgets</h2>
-//                         <button
-//                               onClick={() => setisCreateBudgetModalOpen(true)}
-//                               className="flex items-center gap-2 text-lg bg-black text-white hover:bg-gray-800 px-2 py-1 rounded-md"
-//                         >
-//                               <FaPlus /> Create
-//                         </button>
-//                   </div>
-//                   <div className="min-h-[200px] flex items-center justify-center">
-//                         {budgets.length === 0 ? (
-//                               <p className="text-center text-gray-500">
-//                                     No budgets available. Start by creating one!
-//                               </p>
-//                         ) : (
-//                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-//                                     {budgets.map((budget) => (
-//                                           <BudgetCard
-//                                                 key={budget.budget_id}
-//                                                 budget={budget}
-//                                                 isMenuOpen={
-//                                                       openMenuId ===
-//                                                       budget.budget_id
-//                                                 }
-//                                                 onMenuToggle={() =>
-//                                                       handleMenuToggle(
-//                                                             budget.budget_id
-//                                                       )
-//                                                 }
-//                                                 menuRef={menuRef}
-//                                           />
-//                                     ))}
-//                               </div>
-//                         )}
-//                   </div>
-//                   <CreateBudgetModal
-//                         isOpen={isCreateBudgetModalOpen}
-//                         onClose={() => setisCreateBudgetModalOpen(false)}
-//                   />
-//             </div>
-//       );
-// };
-
-// export default BudgetGrid;
-
 import React, { useState, useEffect, useRef } from "react";
 import { FaPlus, FaFilter } from "react-icons/fa";
 import CreateBudgetModal from "../Modals/BudgetModals/CreateBudgetModal";
@@ -162,7 +89,7 @@ const BudgetGrid = ({ budgets }) => {
       const filteredBudgets = filterBudgets();
 
       return (
-            <div className="w-full p-4 sm:p-6">
+            <div className="w-full p-4 sm:p-6 ">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
                               Budgets
@@ -187,27 +114,31 @@ const BudgetGrid = ({ budgets }) => {
                         </div>
                   </div>
 
-                  <div className="min-h-[200px] flex items-center justify-center">
+                  <div className="min-h-[100px] flex items-center justify-center">
                         {filteredBudgets.length === 0 ? (
                               <div className="text-center p-6 bg-white rounded-xl border border-gray-100 shadow-sm w-full">
                                     <p className="text-gray-500 mb-2 text-sm sm:text-base">
-                                          No budgets match your filters
+                                          {budgets
+                                                ? "No Budgets"
+                                                : "No budgets match your filters"}
                                     </p>
-                                    <button
-                                          onClick={() =>
-                                                setFilters({
-                                                      minAmount: "",
-                                                      maxAmount: "",
-                                                      startDate: "",
-                                                      endDate: "",
-                                                      categories: [],
-                                                      activeOnly: false,
-                                                })
-                                          }
-                                          className="text-xs sm:text-sm text-blue-500 hover:text-blue-600 font-medium"
-                                    >
-                                          Clear all filters
-                                    </button>
+                                    {!budgets && (
+                                          <button
+                                                onClick={() =>
+                                                      setFilters({
+                                                            minAmount: "",
+                                                            maxAmount: "",
+                                                            startDate: "",
+                                                            endDate: "",
+                                                            categories: [],
+                                                            activeOnly: false,
+                                                      })
+                                                }
+                                                className="text-xs sm:text-sm text-blue-500 hover:text-blue-600 font-medium"
+                                          >
+                                                Clear all filters
+                                          </button>
+                                    )}
                               </div>
                         ) : (
                               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5 w-full">
