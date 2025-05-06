@@ -1,5 +1,12 @@
-import React, { useState, useEffect, useRef, use } from "react";
-import { FaEdit, FaTrash, FaSearch, FaFilter, FaFilePdf } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import {
+      FaEdit,
+      FaTrash,
+      FaSearch,
+      FaFilter,
+      FaFilePdf,
+      FaCamera,
+} from "react-icons/fa";
 import FilterModal from "../Modals/TransactionModals/FilterModal";
 import EditTransactionModal from "../Modals/TransactionModals/EditTransactionModal";
 import DeleteTransactionModal from "../Modals/TransactionModals/DeleteTransactionModal";
@@ -8,11 +15,13 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import PdfExportModal from "../Modals/TransactionModals/PdfExportModal";
 import { useBudgetStore } from "../../store/budgetStore";
+import ScanReceiptModal from "../Modals/TransactionModals/ScanReceiptModal";
 
 const TransactionTable = ({ transactions, userId, budgetId }) => {
       const [searchTerm, setSearchTerm] = useState("");
       const [filter, setFilter] = useState("All");
       const [menuOpen, setMenuOpen] = useState(null);
+      const [scanModalOpen, setScanModalOpen] = useState(false);
       const [showFilterModal, setShowFilterModal] = useState(false);
       const [showPdfModal, setShowPdfModal] = useState(false);
       const [startDate, setStartDate] = useState("");
@@ -50,26 +59,6 @@ const TransactionTable = ({ transactions, userId, budgetId }) => {
                   document.removeEventListener("mousedown", handleClickOutside);
       }, [menuOpen]);
 
-      // const getCategoryColor = (category) => {
-      //       const colors = {
-      //             Health: "bg-blue-100 text-blue-800",
-      //             Personal: "bg-indigo-100 text-indigo-800",
-      //             Business: "bg-purple-100 text-purple-800",
-      //             Emergency: "bg-red-100 text-red-800",
-      //             Travel: "bg-cyan-100 text-cyan-800",
-      //             Savings: "bg-green-100 text-green-800",
-      //             Education: "bg-amber-100 text-amber-800",
-      //             Shopping: "bg-pink-100 text-pink-800",
-      //             Food: "bg-amber-100 text-amber-800",
-      //             Salary: "bg-green-100 text-green-800",
-      //             Entertainment: "bg-purple-100 text-purple-800",
-      //             Transportation: "bg-gray-100 text-gray-800",
-      //             default: "bg-gray-100 text-gray-800",
-      //       };
-      //       return colors[category] || colors.default;
-      // };
-
-      
       // Persistent color assignments using a memoized map
       const getCategoryColor = (() => {
             const colorPalette = [
@@ -354,6 +343,13 @@ const TransactionTable = ({ transactions, userId, budgetId }) => {
                         setShowPdfModal={setShowPdfModal}
                         onExport={handlePdfExport}
                   />
+                  <ScanReceiptModal
+                        isOpen={scanModalOpen}
+                        onClose={() => setScanModalOpen(false)}
+                        userId={userId}
+                        budgetId={budgetId}
+                        categories={categories}
+                  />
 
                   {/* Search and Filter Bar - Mobile Optimized */}
                   <div
@@ -379,7 +375,17 @@ const TransactionTable = ({ transactions, userId, budgetId }) => {
                                     className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                               />
                         </div>
-
+                        <div className="flex gap-3">
+                              {location.pathname !== "/allTransactions" && (
+                                    <button
+                                          onClick={() => setScanModalOpen(true)}
+                                          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-colors text-sm sm:text-base"
+                                    >
+                                          <FaCamera className="text-blue-500" />
+                                          <span>Scan Receipt</span>
+                                    </button>
+                              )}
+                        </div>
                         <div className="flex gap-3">
                               <button
                                     onClick={() => setShowPdfModal(true)}

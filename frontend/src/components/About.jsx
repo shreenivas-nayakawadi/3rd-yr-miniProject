@@ -1,21 +1,3 @@
-// const About = ({ teamMembers }) => {
-//     return (
-//         <div id="about" className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-//             <h2 className="text-3xl font-bold mb-4 col-span-full">About Us</h2>
-//             {teamMembers.map((member) => (
-//                 <div key={member.roll} className="bg-gray-100 p-8 rounded-2xl shadow-md">
-//                     <h3 className="text-2xl font-semibold mb-2">{member.name}</h3>
-//                     <p>Roll No: {member.roll}</p>
-//                     <p>{member.college}</p>
-//                     <p>{member.department}</p>
-//                 </div>
-//             ))}
-//         </div>
-//     );
-// };
-
-// export default About;
-
 // About.js
 const About = ({ teamMembers }) => {
     return (
@@ -40,14 +22,14 @@ const About = ({ teamMembers }) => {
                                     </svg>
                                 </div>
                                 <h3 className="text-xl font-bold text-center text-gray-900 mb-2">{member.name}</h3>
-                                <p className="text-gray-600 text-center mb-1">
-                                    <span className="font-medium">Roll No:</span> {member.roll}
+                                <p className="text-gray-500 text-center mb-1">
+                                    <span className="font-medium  text-gray-900">Roll No:</span> {member.roll}
                                 </p>
-                                <p className="text-gray-600 text-center mb-1">
-                                    <span className="font-medium">College:</span> {member.college}
+                                <p className="text-gray-500 text-center mb-1">
+                                    <span className="font-medium text-gray-900">College:</span> {member.college}
                                 </p>
-                                <p className="text-gray-600 text-center">
-                                    <span className="font-medium">Department:</span> {member.department}
+                                <p className="text-gray-500 text-center">
+                                    <span className="font-medium  text-gray-900">Department:</span> {member.department}
                                 </p>
                             </div>
                         </div>
