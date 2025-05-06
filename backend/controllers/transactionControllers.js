@@ -6,8 +6,13 @@ const transactionController = {
       // Create Transaction
       createTransaction: async (req, res) => {
             const { user_id, budget_id } = req.params;
-            const { transaction_type, amount, description, category } =
-                  req.body;
+            const {
+                  transaction_type,
+                  amount,
+                  description,
+                  category,
+                  transaction_date,
+            } = req.body;
 
             try {
                   const transaction = await prisma.transaction.create({
@@ -18,6 +23,7 @@ const transactionController = {
                               amount: parseFloat(amount),
                               description,
                               category,
+                              transaction_date: new Date(transaction_date),
                         },
                   });
 

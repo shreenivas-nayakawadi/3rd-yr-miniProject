@@ -2,15 +2,11 @@ import React, { useState } from "react";
 import AddIncomeModal from "../Modals/TransactionModals/AddIncomeModal";
 import AddExpenseModal from "../Modals/TransactionModals/AddExpenseModal";
 import { useBudgetStore } from "../../store/budgetStore";
+import { FiSave, FiX } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
 
-const TransactionSummary = ({
-      transactions,
-      budgetId,
-      onEditBudget,
-      userId,
-}) => {
-      const { budgets } = useBudgetStore();
+const TransactionSummary = ({ transactions, budgetId, userId }) => {
+      const { budgets, updateBudget } = useBudgetStore();
       const budget = budgets.find((budget) => budget.budget_id === budgetId);
       const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);
       const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
@@ -56,6 +52,27 @@ const TransactionSummary = ({
             balance =
                   (budget?.total_amount || 0) - totals.expense + totals.income;
       }
+
+      const handleEditBudget = async (newBudgetAmount) => {
+            if (newBudgetAmount < 0 || newBudgetAmount == 0) {
+                  alert("Budget amount cannot be negative.");
+                  return;
+            }
+
+            const updatedBudget = {
+                  ...budget,
+                  total_amount: Number(newBudgetAmount), // Convert to number
+            };
+
+            try {
+                  await updateBudget(userId, budgetId, updatedBudget);
+                  setNewBudgetAmount(newBudgetAmount);
+                  setIsEditing(false);
+            } catch (error) {
+                  console.error("Failed to update budget:", error);
+            }
+      };
+
       return (
             <>
                   <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
@@ -157,55 +174,104 @@ const TransactionSummary = ({
                                                       {location.pathname ===
                                                       "/allTransactions"
                                                             ? "(Total Budget - Total Spent + Total Inocme)"
+                                                            : isEditing
+                                                            ? `Update your budget amount from ${budget.total_amount}`
                                                             : "(Budget - Spent + Inocme)"}
                                                 </span>
                                           </p>
                                           {isEditing ? (
-                                                <div className="flex items-center gap-2 mt-1">
-                                                      <span className="text-gray-500">
-                                                            ₹
-                                                      </span>
-                                                      <input
-                                                            type="number"
-                                                            value={
-                                                                  newBudgetAmount
-                                                            }
-                                                            onChange={(e) =>
-                                                                  setNewBudgetAmount(
-                                                                        e.target
-                                                                              .value
-                                                                  )
-                                                            }
-                                                            className="w-32 p-1 border rounded"
-                                                      />
+                                                // <div className="flex items-center gap-2 mt-1">
+                                                //       <span className="text-gray-500">
+                                                //             ₹
+                                                //       </span>
+                                                //       <input
+                                                //             type="number"
+                                                //             value={
+                                                //                   newBudgetAmount
+                                                //             }
+                                                //             onChange={(e) =>
+                                                //                   setNewBudgetAmount(
+                                                //                         e.target
+                                                //                               .value
+                                                //                   )
+                                                //             }
+                                                //             className="w-32 p-1 border rounded"
+                                                //       />
 
-                                                      <button
-                                                            onClick={() => {
-                                                                  onEditBudget(
+                                                //       <button
+                                                //             onClick={() => {
+                                                //                   handleEditBudget(
+                                                //                         newBudgetAmount
+                                                //                   );
+                                                //             }}
+                                                //             className="text-green-600"
+                                                //       >
+                                                //             <FiSave className="mr-2" />
+                                                //       </button>
+                                                //       <button
+                                                //             onClick={() => {
+                                                //                   setIsEditing(
+                                                //                         false
+                                                //                   );
+                                                //                   setNewBudgetAmount(
+                                                //                         budget?.total_amount ||
+                                                //                               0
+                                                //                   );
+                                                //             }}
+                                                //             className="text-red-600"
+                                                //       >
+                                                //             <FiX className="mr-2" />
+                                                //       </button>
+                                                // </div>
+
+                                                <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                                      <div className="flex items-center gap-2 w-full">
+                                                            <span className="text-gray-500 shrink-0">
+                                                                  ₹
+                                                            </span>
+                                                            <input
+                                                                  type="number"
+                                                                  value={
                                                                         newBudgetAmount
-                                                                  );
-                                                                  setIsEditing(
-                                                                        false
-                                                                  );
-                                                            }}
-                                                            className="bg-blue-500 text-white px-2 py-1 rounded text-sm"
-                                                      >
-                                                            Save
-                                                      </button>
-                                                      <button
-                                                            onClick={() => {
-                                                                  setIsEditing(
-                                                                        false
-                                                                  );
-                                                                  setNewBudgetAmount(
-                                                                        budget?.total_amount ||
-                                                                              0
-                                                                  );
-                                                            }}
-                                                            className="text-gray-500 px-2 py-1 rounded text-sm"
-                                                      >
-                                                            Cancel
-                                                      </button>
+                                                                  }
+                                                                  onChange={(
+                                                                        e
+                                                                  ) =>
+                                                                        setNewBudgetAmount(
+                                                                              e
+                                                                                    .target
+                                                                                    .value
+                                                                        )
+                                                                  }
+                                                                  className="flex-1 min-w-0 max-w-33 p-1 border rounded"
+                                                            />
+                                                      </div>
+                                                      <div className="flex gap-2">
+                                                            <button
+                                                                  onClick={() => {
+                                                                        handleEditBudget(
+                                                                              newBudgetAmount
+                                                                        );
+                                                                  }}
+                                                                  className="text-green-600"
+                                                            >
+                                                                  <FiSave className="mr-2" />
+                                                            </button>
+                                                            <button
+                                                                  onClick={() => {
+                                                                        setIsEditing(
+                                                                              false
+                                                                        );
+                                                                        setNewBudgetAmount(
+                                                                              budget?.total_amount ||
+                                                                                    0
+                                                                        );
+                                                                  }}
+                                                                  className="text-red-600"
+                                                            >
+                                                                  <FiX className="mr-2" />
+                                                            </button>
+                                                      </div>
                                                 </div>
                                           ) : (
                                                 <div className="flex items-center gap-2">

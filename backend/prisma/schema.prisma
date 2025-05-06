@@ -42,7 +42,7 @@ model Transaction {
   category         BudgetCategory
   amount           Float
   description      String
-  transaction_date DateTime        @default(now())
+  transaction_date DateTime        
 
   budget Budget @relation(fields: [budget_id], references: [budget_id], onDelete: Cascade)
   user   User   @relation(fields: [user_id], references: [user_id], onDelete: Cascade)

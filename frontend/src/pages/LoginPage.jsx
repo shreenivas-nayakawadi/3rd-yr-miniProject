@@ -50,14 +50,14 @@ const LoginPage = () => {
                                     }
                               />
 
-                              <div className="flex items-center mb-4 sm:mb-6">
+                              {/* <div className="flex items-center mb-4 sm:mb-6">
                                     <Link
                                           to="/forgot-password"
                                           className="text-gray-800 text-sm sm:text-base hover:underline"
                                     >
                                           Forgot password?
                                     </Link>
-                              </div>
+                              </div> */}
                               {error && (
                                     <p className="text-red-500 font-semibold text-sm sm:text-base mb-2">
                                           {error}

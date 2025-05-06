@@ -66,7 +66,7 @@ const TotalBudget = ({ budgets }) => {
                                     {totalSpent}/{totalAmount}
                               </p>
                               <p className="text-sm text-gray-400 mx-2">
-                              {percentage >= 0 ? percentage : 0}% used
+                                    {percentage >= 0 ? percentage : 0}% used
                               </p>
                         </div>
 
@@ -75,8 +75,30 @@ const TotalBudget = ({ budgets }) => {
                                     percentage
                               )}`}
                         >
-                              {getBudgetSuggestion(percentage)}
+                              {budgets.length === 0
+                                    ? "No Budgets!"
+                                    : ` ${getBudgetSuggestion(percentage)}`}
                         </p>
+                        {totalSpent < 0 && (
+                              <p
+                                    className={`text-sm font-medium mt-1 ${getSuggestionColor(
+                                          percentage
+                                    )}`}
+                              >
+                                    {`You have extra ${ totalSpent * -1} in your budget.`}
+                              </p>
+                        )}
+                        {totalSpent > totalAmount&& (
+                              <p
+                                    className={`text-sm font-medium mt-1 ${getSuggestionColor(
+                                          percentage
+                                    )}`}
+                              >
+                                    {`You Spent extra ${
+                                          totalSpent - totalAmount
+                                    } from your budget.`}
+                              </p>
+                        )}
                   </div>
             </Card>
       );

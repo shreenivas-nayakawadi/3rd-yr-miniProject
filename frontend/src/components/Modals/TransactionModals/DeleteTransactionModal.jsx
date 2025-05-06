@@ -23,9 +23,9 @@ const DeleteTransactionModal = ({
                   const endDateUpdate = budget.end_date.split("T")[0];
                   const amount =
                         transaction.transaction_type === "Income"
-                              ? parseFloat(budget.spent_amount) -
+                              ? parseFloat(budget.spent_amount) +
                                 parseFloat(transaction.amount)
-                              : parseFloat(budget.spent_amount) +
+                              : parseFloat(budget.spent_amount) -
                                 parseFloat(transaction.amount);
                   await deleteTransaction(userId, transactionId);
                   await updateBudget(user.user_id, budgetId, {

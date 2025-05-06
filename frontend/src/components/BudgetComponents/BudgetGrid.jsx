@@ -90,7 +90,7 @@ const BudgetGrid = ({ budgets }) => {
 
       return (
             <div className="w-full p-4 sm:p-6 ">
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 sm:mb-6  ">
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
                               Budgets
                         </h2>

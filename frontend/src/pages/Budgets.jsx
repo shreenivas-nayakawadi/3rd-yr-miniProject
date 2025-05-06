@@ -11,7 +11,7 @@ const Budgets = () => {
             fetchBudgets(user.user_id);
       }, []);
       return (
-            <div className=" overflow-y-auto">
+            <div className=" overflow-y-auto w-full">
                   <BudgetGrid budgets={budgets} />
             </div>
       );

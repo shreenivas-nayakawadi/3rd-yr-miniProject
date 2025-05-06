@@ -27,9 +27,6 @@ const TransactionPage = () => {
                         transactions={budgetTransactions}
                         budgetId={budgetId}
                         userId={currentUserId}
-                        onEditBudget={(newBudgetAmount) => {
-                              console.log("New Budget Amount:", newBudgetAmount);
-                        }}
                   />
                   <TransactionTable
                         transactions={budgetTransactions}

@@ -169,6 +169,29 @@ const BudgetCard = ({ budget, isMenuOpen, onMenuToggle, menuRef }) => {
                         >
                               {getBudgetSuggestion(percentage)}
                         </p>
+                        {usedAmount < 0 && (
+                              <p
+                                    className={`text-sm font-medium mt-1 ${getSuggestionColor(
+                                          percentage
+                                    )}`}
+                              >
+                                    {`You have extra ${
+                                          usedAmount * -1
+                                    } in your budget.`}
+                              </p>
+                        )}
+                        {usedAmount > budget.total_amount && (
+                              <p
+                                    className={`text-sm font-medium mt-1 ${getSuggestionColor(
+                                          percentage
+                                    )}`}
+                              >
+                                    {`You Spent extra ${
+                                          usedAmount - budget.total_amount
+                                    } from your budget.`}
+                              </p>
+                        )}
+                        
                   </div>
             </Card>
       );

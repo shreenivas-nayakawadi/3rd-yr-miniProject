@@ -19,6 +19,15 @@ const authController = {
                               .status(400)
                               .json({ error: "User already exists" });
                   }
+
+                  const existingUsername = await prisma.user.findUnique({
+                        where: { username },
+                  });
+                  if (existingUsername) {
+                        return res
+                              .status(400)
+                              .json({ error: "User name already exists" });
+                  }
                   const hashedPassword = await bcrypt.hash(password, 10);
                   const newUser = await prisma.user.create({
                         data: {
@@ -35,8 +44,8 @@ const authController = {
                         message: "Logged in successfully",
                         user: { ...newUser, password: undefined },
                   });
-            } catch (error) {
-                  console.log("Error in signup", error.message);
+            }
+             catch (error) {
                   res.status(400).json({
                         message: "error in signup",
                         error: error.message,
