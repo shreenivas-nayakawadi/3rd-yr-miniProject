@@ -30,6 +30,14 @@ const AddIncomeModal = ({ isOpen, onClose, budgetId, userId }) => {
                               parseFloat(budget.spent_amount) -
                               parseFloat(formData.amount),
                   });
+                  setFormData({
+                        amount: "",
+                        description: "",
+                        category: "Salary",
+                        transaction_date: new Date()
+                              .toISOString()
+                              .split("T")[0],
+                  });
                   onClose();
             } catch (error) {
                   console.error("Error adding income:", error);

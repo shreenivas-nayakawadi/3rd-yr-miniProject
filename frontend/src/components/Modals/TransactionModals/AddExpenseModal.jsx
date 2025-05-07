@@ -32,6 +32,15 @@ const AddExpenseModal = ({ isOpen, onClose, budgetId, userId }) => {
                               parseFloat(budget.spent_amount) +
                               parseFloat(formData.amount),
                   });
+                  // Reset form data
+                  setFormData({
+                        amount: "",
+                        description: "",
+                        category: "Food",
+                        transaction_date: new Date()
+                              .toISOString()
+                              .split("T")[0],
+                  });
                   onClose();
             } catch (error) {
                   console.error("Error:", error);

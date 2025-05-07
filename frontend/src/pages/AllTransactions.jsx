@@ -1,9 +1,15 @@
 import { useTransactionStore } from "../store/transactionStore";
 import TransactionTable from "../components/TransactionComponents/TransactionTable";
 import TransactionSummary from "../components/TransactionComponents/TransactionSummary";
+import { useEffect } from "react";
+import { useAuthStore } from "../store/authStore";
 
 const AllTransactions = () => {
-      const { userTransactions } = useTransactionStore();
+      const { user } = useAuthStore();
+      const { userTransactions, fetchUserTransactions } = useTransactionStore();
+      useEffect(() => {
+            fetchUserTransactions(user.user_id);
+      }, []);
 
       return (
             <div className="w-full px-4 sm:px-6 lg:px-8 py-6">

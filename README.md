@@ -1,8 +1,47 @@
-# Budget Tracker Application - README
+# Budget Management - README
+
+## Screenshots ofThis Project
+
+### Authentication Page
+![Authentication PageScreenshot](images/Signup.png)
+![Authentication Page Screenshot](images/Login.png)
+
+### Home Page
+![Home PageScreenshot](images/Home1.png)
+![Home Page Screenshot](images/Home2.png)
+![Home Page Screenshot](images/Home3.png)
+![Home Page Screenshot](images/Home4.png)
+
+### Dashboard Page
+![Dashboard Page Screenshot](images/Dashboard1.png)
+![Dashboard Page Screenshot](images/Dashboard2.png)
+
+### All Transactions Page
+![All Transactions Screenshot](images/AllTransactions.png)
+
+### Budgets Page
+![ Budgets PageScreenshot](images/Budgets1.png)
+![ Budgets PageScreenshot](images/Budgets2.png)
+![ Budgets PageScreenshot](images/Budgets3.png)
+![ Budgets PageScreenshot](images/Budgets4.png)
+![ Budgets PageScreenshot](images/Budgets5.png)
+
+### Transactions Page
+![Transactions Screenshot](images/Transactions1.png)
+![Transactions Screenshot](images/Transactions2.png)
+![Transactions Screenshot](images/Transactions3.png)
+![Transactions Screenshot](images/Transactions4.png)
+![Transactions Screenshot](images/Transactions5.png)
+![Transactions Screenshot](images/Transactions6.png)
+![Transactions Screenshot](images/Transactions7.png)
+
+### User Page
+![UserScreenshot](images/User.png)
+
 
 ## Overview
 
-This Budget Tracker is a full-stack application that helps users manage their finances by tracking budgets, transactions, and providing AI-powered insights. The application features receipt scanning, financial analysis, and personalized budgeting tools.
+This Budget Management is a full-stack application that helps users manage their finances by tracking budgets, transactions, and providing AI-powered insights. The application features receipt scanning, financial analysis, and personalized budgeting tools.
 
 ## Features
 

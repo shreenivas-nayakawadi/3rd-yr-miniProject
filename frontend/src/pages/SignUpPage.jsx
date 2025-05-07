@@ -22,6 +22,9 @@ const SignUpPage = () => {
             try {
                   await signup(email, password, username);
                   navigate("/dashboard");
+                  setName("");
+                  setEmail("");
+                  setPassword("");
             } catch (error) {
                   console.log(error);
             }

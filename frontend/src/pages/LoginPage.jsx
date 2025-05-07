@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Mail, Lock, Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
@@ -11,14 +11,21 @@ const LoginPage = () => {
       const navigate = useNavigate();
 
       useEffect(() => {
-            setError(null); 
+            setError(null);
       }, [setError]);
+
+      useEffect(() => {
+            setEmail("");
+            setPassword("");
+      }, []);
 
       const handleLogin = async (e) => {
             e.preventDefault();
             try {
                   await login(email, password);
                   navigate("/dashboard");
+                  setEmail("");
+                  setPassword("");
             } catch (error) {
                   console.log(error);
             }

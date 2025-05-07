@@ -45,28 +45,32 @@ const EditTransactionModal = ({
                   const newType = formData.transaction_type;
                   const budgetSpentAmount = budget.spent_amount;
                   let updatedAmount = 0;
-                  
+
                   if (newAmount === prevAmount && newType === prevType) {
                         // Case 1: No change in amount or type
                         updatedAmount = budgetSpentAmount;
-                    } else if (prevType === newType) {
+                  } else if (prevType === newType) {
                         // Case 2: Type remains the same, amount changes
                         if (newType === "Expense") {
-                            updatedAmount = budgetSpentAmount - prevAmount + newAmount;
+                              updatedAmount =
+                                    budgetSpentAmount - prevAmount + newAmount;
                         } else {
-                            // For income, we subtract the old amount and add the new amount
-                            updatedAmount = budgetSpentAmount + prevAmount - newAmount;
+                              // For income, we subtract the old amount and add the new amount
+                              updatedAmount =
+                                    budgetSpentAmount + prevAmount - newAmount;
                         }
-                    } else {
+                  } else {
                         // Case 3: Type changes (regardless of amount change)
                         if (prevType === "Expense" && newType === "Income") {
-                            // Changing from expense to income: remove expense and add income
-                            updatedAmount = budgetSpentAmount - prevAmount - newAmount;
+                              // Changing from expense to income: remove expense and add income
+                              updatedAmount =
+                                    budgetSpentAmount - prevAmount - newAmount;
                         } else {
-                            // Changing from income to expense: add back income and add new expense
-                            updatedAmount = budgetSpentAmount + prevAmount + newAmount;
+                              // Changing from income to expense: add back income and add new expense
+                              updatedAmount =
+                                    budgetSpentAmount + prevAmount + newAmount;
                         }
-                    }
+                  }
 
                   // Update the transaction first
                   const endDateUpdate = budget.end_date.split("T")[0];
@@ -81,6 +85,16 @@ const EditTransactionModal = ({
                         spent_amount: parseFloat(updatedAmount),
                   });
 
+                  setFormData({
+                        amount: "",
+                        description: "",
+                        category: "",
+                        transaction_type: "",
+                        transaction_date: new Date()
+                              .toISOString()
+                              .split("T")[0],
+                  });
+
                   onClose();
             } catch (error) {
                   console.error("Error updating transaction:", error);
@@ -90,7 +104,7 @@ const EditTransactionModal = ({
       if (!isOpen || !transaction) return null;
 
       return (
-            <div className="fixed inset-0 bg-transparent backdrop-blur bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-transparent backdrop-blur bg-opacity-50  flex items-center justify-center z-50">
                   <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl">
                         <h2 className="text-xl font-semibold mb-4">
                               Edit Transaction
