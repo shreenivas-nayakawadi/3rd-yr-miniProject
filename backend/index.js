@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://budget-management-five.vercel.app"
+  "https://budget-management-awin.vercel.app"
 ];
 
 app.use(cors({ 
