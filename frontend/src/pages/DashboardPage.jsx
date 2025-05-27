@@ -17,7 +17,7 @@ const DashboardPage = () => {
       useEffect(() => {
             fetchBudgets(user.user_id);
             setTimeout(() => {
-                  if (budgets.length > 0 && userTransactions.length > 0) {
+                  if (budgets.length >= 0 && userTransactions.length >= 0) {
                         fetchFinancialInsights(user.user_id);
                   }
             }, 2000); // Delay to ensure budgets and transactions are fetched
