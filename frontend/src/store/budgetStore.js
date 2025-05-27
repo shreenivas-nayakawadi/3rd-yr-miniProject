@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/budget";
+import { API_URLS } from "../utils/config";
 
 export const useBudgetStore = create(
       persist(
@@ -16,7 +15,7 @@ export const useBudgetStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.post(
-                                    `${API_URL}/create/${userId}`,
+                                    `${API_URLS.budget}/create/${userId}`,
                                     budgetData
                               );
                               set((state) => ({
@@ -38,7 +37,7 @@ export const useBudgetStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.put(
-                                    `${API_URL}/update/${userId}/${budgetId}`,
+                                    `${API_URLS.budget}/update/${userId}/${budgetId}`,
                                     budgetData
                               );
                               set((state) => ({
@@ -64,7 +63,7 @@ export const useBudgetStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               await axios.delete(
-                                    `${API_URL}/delete/${userId}/${budgetId}`
+                                    `${API_URLS.budget}/delete/${userId}/${budgetId}`
                               );
                               set((state) => ({
                                     budgets: state.budgets.filter(
@@ -86,7 +85,7 @@ export const useBudgetStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.get(
-                                    `${API_URL}/all/${userId}`
+                                    `${API_URLS.budget}/all/${userId}`
                               );
                               set({ budgets: response.data, isLoading: false });
                         } catch (error) {
@@ -102,7 +101,7 @@ export const useBudgetStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.get(
-                                    `${API_URL}/categories`
+                                    `${API_URLS.budget}/categories`
                               );
                               set({
                                     categories: response.data,

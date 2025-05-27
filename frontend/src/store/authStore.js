@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/auth";
+import { API_URLS } from "../utils/config";
 
 axios.defaults.withCredentials = true;
 
@@ -18,7 +17,7 @@ export const useAuthStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.post(
-                                    `${API_URL}/signup`,
+                                    `${API_URLS.auth}/signup`,
                                     {
                                           username,
                                           email,
@@ -45,7 +44,7 @@ export const useAuthStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.post(
-                                    `${API_URL}/login`,
+                                    `${API_URLS.auth}/login`,
                                     {
                                           email,
                                           password,
@@ -71,7 +70,7 @@ export const useAuthStore = create(
                   logout: async () => {
                         set({ isLoading: true, error: null });
                         try {
-                              await axios.post(`${API_URL}/logout`);
+                              await axios.post(`${API_URLS.auth}/logout`);
                               set({
                                     user: null,
                                     isAuthenticated: false,

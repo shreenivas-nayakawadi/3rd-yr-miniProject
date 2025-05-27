@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/transaction";
+import { API_URLS } from "../utils/config";
 
 export const useTransactionStore = create(
       persist(
@@ -20,7 +19,7 @@ export const useTransactionStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.post(
-                                    `${API_URL}/create/${userId}/${budgetId}`,
+                                    `${API_URLS.transaction}/create/${userId}/${budgetId}`,
                                     transactionData
                               );
                               set((state) => ({
@@ -53,7 +52,7 @@ export const useTransactionStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.put(
-                                    `${API_URL}/update/${userId}/${transactionId}`,
+                                    `${API_URLS.transaction}/update/${userId}/${transactionId}`,
                                     transactionData
                               );
                               set((state) => ({
@@ -88,7 +87,7 @@ export const useTransactionStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               await axios.delete(
-                                    `${API_URL}/delete/${userId}/${transactionId}`
+                                    `${API_URLS.transaction}/delete/${userId}/${transactionId}`
                               );
                               set((state) => ({
                                     userTransactions:
@@ -118,7 +117,7 @@ export const useTransactionStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.get(
-                                    `${API_URL}/all/${userId}`
+                                    `${API_URLS.transaction}/all/${userId}`
                               );
                               set({
                                     userTransactions: response.data,
@@ -137,7 +136,7 @@ export const useTransactionStore = create(
                         set({ isLoading: true, error: null });
                         try {
                               const response = await axios.get(
-                                    `${API_URL}/budget/${budgetId}`
+                                    `${API_URLS.transaction}/budget/${budgetId}`
                               );
                               set({
                                     budgetTransactions: response.data,
@@ -165,7 +164,7 @@ export const useTransactionStore = create(
                               );
 
                               const response = await axios.post(
-                                    `${API_URL}/scan-receipt`,
+                                    `${API_URLS.transaction}/scan-receipt`,
                                     formData,
                                     {
                                           headers: {

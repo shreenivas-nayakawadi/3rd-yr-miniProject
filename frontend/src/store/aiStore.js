@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/transaction";
+import { API_URLS } from "../utils/config";
 
 export const useAIStore = create((set) => ({
       insights: [],
@@ -18,7 +17,7 @@ export const useAIStore = create((set) => ({
                   formData.append("categories", JSON.stringify(categories));
 
                   const response = await axios.post(
-                        `${API_URL}/scan-receipt`,
+                        `${API_URLS.transaction}/scan-receipt`,
                         formData,
                         {
                               headers: {
@@ -44,7 +43,7 @@ export const useAIStore = create((set) => ({
             set({ isAILoading: true, error: null });
             try {
                   const response = await axios.get(
-                        `${API_URL}/insights/${userId}`
+                        `${API_URLS.transaction}/insights/${userId}`
                   );
 
                   set({
