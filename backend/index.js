@@ -9,7 +9,22 @@ import transactionRoutes from "./routes/transactionRoutes.js";
 const app = express();
 const prisma = new PrismaClient();
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://budget-management-five.vercel.app"
+];
+
+app.use(cors({ 
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true 
+}));
+
 dotenv.config();
 app.use(express.json());
 
