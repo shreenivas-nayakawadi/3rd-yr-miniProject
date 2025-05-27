@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  user_id      String        @id @default(uuid())
+  user_id      String        @id @default(auto()) @map("_id") @db.ObjectId
   username     String        @unique
   email        String        @unique
   password     String
@@ -19,44 +19,27 @@ model User {
 }
 
 model Budget {
-  budget_id    String         @id @default(uuid())
-  user_id      String
-  budget_name  String         @unique
+  budget_id    String         @id @default(auto()) @map("_id") @db.ObjectId
+  user_id      String         @db.ObjectId
+  budget_name  String
   total_amount Float
   spent_amount Float
   start_date   DateTime
   end_date     DateTime
   category     BudgetCategory
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @updatedAt
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
 
   user         User          @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   transactions Transaction[]
+
+  @@unique([budget_id, budget_name])
 }
 
-//corrected the budget_name to be unique
-// model Budget {
-//   budget_id    String         @id @default(uuid())
-//   user_id      String
-//   budget_name  String
-//   total_amount Float
-//   spent_amount Float
-//   start_date   DateTime
-//   end_date     DateTime
-//   category     BudgetCategory
-//   created_at   DateTime      @default(now())
-//   updated_at   DateTime      @updatedAt
-
-//   user         User          @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-//   transactions Transaction[]
-
-//   @@unique([budget_id, budget_name])
-// }
-
 model Transaction {
-  transaction_id   String          @id @default(uuid())
-  budget_id        String
-  user_id          String
+  transaction_id   String          @id @default(auto()) @map("_id") @db.ObjectId
+  budget_id        String          @db.ObjectId
+  user_id          String          @db.ObjectId
   transaction_type TransactionType
   category         BudgetCategory
   amount           Float
